@@ -19,11 +19,9 @@ spec:
         app: {{ .Chart.Name }}
         env: {{ .Values.env }}
     spec:
-      serviceAccountName: ras-rm-k8s-services
+      serviceAccountName: { { .Values.serviceAccount.name } }
       imagePullSecrets:
-      - name: gar-secret
-      nodeSelector:
-        iam.gke.io/gke-metadata-server-enabled: "true"
+          { { - toYaml .Values.imagePullSecrets | nindent 8 } }
       containers:
         - name: {{ .Chart.Name }}
           {{- if eq .Values.image.tag "latest"}}
