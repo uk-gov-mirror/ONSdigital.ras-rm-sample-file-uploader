@@ -68,6 +68,7 @@ jobs:
         if: github.ref != 'refs/heads/main' && github.actor != 'dependabot[bot]'
         run: |
           docker buildx build --progress=plain --platform linux/amd64,linux/arm64 \
+          -f _infra/docker/Dockerfile \
           -t "$REGISTRY_HOSTNAME"/"$GAR_GOOGLE_PROJECT_ID"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.pr_number }} \
           --push .
         env:
@@ -182,6 +183,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           docker buildx build --progress=plain --platform linux/amd64,linux/arm64 \
+          -f _infra/docker/Dockerfile \
           -t "$REGISTRY_HOSTNAME"/"$GAR_GOOGLE_PROJECT_ID"/"$GAR_REPOSITORY"/"$IMAGE":latest \
           -t "$REGISTRY_HOSTNAME"/"$GAR_GOOGLE_PROJECT_ID"/"$GAR_REPOSITORY"/"$IMAGE":${{ env.version }} \
           --push .
